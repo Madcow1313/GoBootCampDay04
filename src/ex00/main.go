@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
@@ -43,12 +44,18 @@ func simpleHandler(w http.ResponseWriter, r *http.Request) {
 		if value, key := candyMap[req.CandyType]; key && req.Money > 0 && req.CandyCount > 0 {
 			if req.Money >= value*req.CandyCount {
 				w.WriteHeader(http.StatusCreated)
+				w.Header().Set("Content-Type", "application/json")
 				resp := response{req.Money - value*req.CandyCount, "Thank you"}
-				json.NewEncoder(w).Encode(resp)
+				jsonResp, err := json.Marshal(resp)
+				if err != nil {
+					http.Error(w, "400 Bad request", http.StatusBadRequest)
+					return
+				}
+				w.Write(jsonResp)
 			} else {
 				w.WriteHeader(http.StatusPaymentRequired)
-				resp := response{req.Money, "Thank you"}
-				json.NewEncoder(w).Encode(resp)
+				w.Header().Set("Content-Type", "application/json")
+				fmt.Fprintf(w, "You need {%d} more money!\n", candyMap[req.CandyType]-req.Money)
 			}
 		} else {
 			http.Error(w, "400 Bad request", http.StatusBadRequest)

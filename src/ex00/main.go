@@ -40,7 +40,7 @@ func simpleHandler(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
-		if value, key := candyMap[req.CandyType]; key {
+		if value, key := candyMap[req.CandyType]; key && req.Money > 0 && req.CandyCount > 0 {
 			if req.Money >= value*req.CandyCount {
 				w.WriteHeader(http.StatusCreated)
 				resp := response{req.Money - value*req.CandyCount, "Thank you"}

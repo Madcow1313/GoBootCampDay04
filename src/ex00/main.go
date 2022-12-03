@@ -50,7 +50,8 @@ func simpleHandler(w http.ResponseWriter, r *http.Request) {
 				resp := response{req.Money, "Thank you"}
 				json.NewEncoder(w).Encode(resp)
 			}
-
+		} else {
+			http.Error(w, "400 Bad request", http.StatusBadRequest)
 		}
 
 	default:

@@ -1,0 +1,3 @@
+curl -s --key cert/key.pem --cert cert/cert.pem --cacert ../../minica/minica.pem -XPOST -H "Content-Type: application/json" -d '{"candyType": "NT", "candyCount": 2, "money": 34}' "https://localhost:3333/buy_candy"
+
+use in client-cert

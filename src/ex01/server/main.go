@@ -32,13 +32,13 @@ func simpleHandler(writer http.ResponseWriter, request *http.Request) {
 	err := json.NewDecoder(request.Body).Decode(&requestBody)
 	if err != nil {
 		writer.Header().Set("Content-Type", "application/json")
-		http.Error(writer, "400 Bad request", http.StatusBadRequest)
+		http.Error(writer, "400 Bad request 3", http.StatusBadRequest)
 		return
 	}
 	candyMap := map[string]int{
 		"CE": 10,
 		"AA": 15,
-		"NA": 17,
+		"NT": 17,
 		"DE": 21,
 		"YR": 23,
 	}
@@ -56,7 +56,7 @@ func simpleHandler(writer http.ResponseWriter, request *http.Request) {
 				jsonResp, err := json.Marshal(resp)
 				if err != nil {
 					writer.WriteHeader(http.StatusBadRequest)
-					http.Error(writer, "400 Bad request", http.StatusBadRequest)
+					http.Error(writer, "400 Bad request 1", http.StatusBadRequest)
 					return
 				}
 				writer.Header().Set("Content-Type", "application/json")
@@ -69,7 +69,7 @@ func simpleHandler(writer http.ResponseWriter, request *http.Request) {
 			}
 		} else {
 			writer.Header().Set("Content-Type", "application/json")
-			http.Error(writer, "400 Bad request", http.StatusBadRequest)
+			http.Error(writer, "400 Bad request 2", http.StatusBadRequest)
 		}
 
 	default:
